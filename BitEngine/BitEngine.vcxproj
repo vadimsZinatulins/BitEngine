@@ -111,7 +111,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>DEL /Q $(SolutionDir)bin\$(Platform)\$(Configuration)\</Command>
+      <Command>DEL /S /Q $(SolutionDir)bin\$(Platform)\$(Configuration)\</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>MKDIR $(SolutionDir)bin\$(Platform)\$(Configuration)\include\$(ProjectName)
@@ -138,7 +138,7 @@ XCOPY /S /Q /Y $(SolutionDir)lib\$(Platform)\*.lib $(SolutionDir)bin\$(Platform)
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>DEL /Q $(SolutionDir)bin\$(Platform)\$(Configuration)\</Command>
+      <Command>DEL /S /Q $(SolutionDir)bin\$(Platform)\$(Configuration)\</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>MKDIR $(SolutionDir)bin\$(Platform)\$(Configuration)\include\$(ProjectName)
@@ -161,7 +161,7 @@ XCOPY /S /Q /Y $(SolutionDir)lib\$(Platform)\*.lib $(SolutionDir)bin\$(Platform)
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>DEL /Q $(SolutionDir)bin\$(Platform)\$(Configuration)\</Command>
+      <Command>DEL /S /Q $(SolutionDir)bin\$(Platform)\$(Configuration)\</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>MKDIR $(SolutionDir)bin\$(Platform)\$(Configuration)\include\$(ProjectName)
@@ -188,7 +188,7 @@ XCOPY /S /Q /Y $(SolutionDir)lib\$(Platform)\*.lib $(SolutionDir)bin\$(Platform)
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>DEL /Q $(SolutionDir)bin\$(Platform)\$(Configuration)\</Command>
+      <Command>DEL /S /Q $(SolutionDir)bin\$(Platform)\$(Configuration)\</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>MKDIR $(SolutionDir)bin\$(Platform)\$(Configuration)\include\$(ProjectName)
