@@ -4,15 +4,17 @@
 namespace BE
 {
 
-class Core
+class Engine
 {
 public:
-	Core() = default;	// Use default constructor
-	virtual ~Core() = default;	// Use default destructor
+	Engine() = default;	// Use default constructor
+	virtual ~Engine() = default;	// Use default destructor
 
 	void run();		// Runs the game
 protected:
 	virtual void initialize() = 0;	// Abstract initializer method
+	virtual void update(float deltaTime) = 0;	// Frame update method
+	virtual void render() = 0;	// All rendering should go here
 	virtual void shutdown() = 0;	// Abstract shutdown method for cleanup
 private:
 	void init();	// Makes all engine initialization
