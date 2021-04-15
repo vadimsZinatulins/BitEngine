@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Renderer.h"
 
 #include <SDL2/SDL.h>
 
@@ -67,6 +68,7 @@ void Window::setFrameLimit(unsigned int limit)
 
 void Window::open()
 {
+	// Set flags
 	Uint32 windowFlags = SDL_WINDOW_SHOWN;
 	switch (m_mode)
 	{
@@ -81,15 +83,19 @@ void Window::open()
 		break;
 	}
 
+	// Open the window
 	g_window = SDL_CreateWindow(m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, windowFlags);
 
-	//Renderer::getInstance().init(g_window);
+	// Initialize Renderer
+	Renderer::getInstance().init(g_window);
 }
 
 void Window::close()
 {
-	//Renderer::getInstance().quit();
+	// Shutdown Renderer
+	Renderer::getInstance().quit();
 
+	// Close window if it is open
 	if (g_window)
 	{
 		SDL_DestroyWindow(g_window);
