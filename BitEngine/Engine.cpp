@@ -33,6 +33,8 @@ void Engine::loop()
 
 	float accumulated = 0.0f;
 
+	initialize();
+
 	SDL_Event e;
 	bool isRunning = true;
 	while (isRunning)
@@ -64,6 +66,8 @@ void Engine::loop()
 
 		SDL_RenderPresent(renderer);
 	}
+
+	shutdown();
 }
 
 void Engine::quit()
