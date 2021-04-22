@@ -47,8 +47,8 @@ private:
 	// Window title
 	std::string m_title{ "" };
 
-	// Delta time (probably not the best place to define it)
-	float m_deltaTime{ 1.0f / 30.0f };
+	// Minimum SDL ticks per frame. Required to cap the frame rate
+	std::uint32_t m_minTicksPerFrame;
 };
 
 }

@@ -1,7 +1,8 @@
 #include <iostream>
 #include <BitEngine/Engine.h>
-#include <BitEngine/utils/CacheSet.h>
 #include <BitEngine/Keys.h>
+#include <BitEngine/KeyInputManager.h>
+#include <BitEngine/Window.h>
 
 class Game final : public BE::Engine
 {
@@ -11,11 +12,15 @@ public:
 
 	virtual void initialize() override
 	{
-
+		BE::Window::getInstance().setFrameLimit(60);
 	}
 
-	virtual void update(float deltaTime) override
+	virtual void update() override
 	{
+		if (BE::KeyInputManager::getInstance().isKeyReleased(BE::Key::KEY_SPACE))
+		{
+			std::cout << "Key pressed" << std::endl;
+		}
 	}
 
 	virtual void render() override

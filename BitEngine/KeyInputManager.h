@@ -4,6 +4,8 @@
 #include "utils/CacheSet.h"
 #include "Keys.h"
 
+#include <iostream>
+
 namespace BE
 {
 
@@ -20,7 +22,11 @@ private:
 
 	using Keys = Utils::CacheSet<Key, Utils::CacheUtilization::Half>;
 
-	KeyInputManager() = default;
+	KeyInputManager()
+	{
+		std::cout << &m_currFrameKeys << ":" << &m_oldFrameKeys << std::endl;
+	}
+
 	~KeyInputManager() = default;
 
 	void keyPressed(Key key);

@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "Renderer.h"
+#include "Time.h"
 
 #include <SDL2/SDL.h>
 
@@ -63,7 +64,8 @@ void Window::setTitle(std::string title)
 
 void Window::setFrameLimit(unsigned int limit)
 {
-	m_deltaTime = 1.0f / (float)limit;
+	Time::getInstance().m_deltaTime = 1.0f / (float)limit;
+	m_minTicksPerFrame = 1000 / limit;
 }
 
 void Window::open()

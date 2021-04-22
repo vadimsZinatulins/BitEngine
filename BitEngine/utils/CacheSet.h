@@ -4,7 +4,6 @@
 #include "Globals.h"
 
 #include <cstddef>
-#include <iostream>
 
 namespace BE
 {
@@ -39,9 +38,9 @@ public:
 	bool contains(T element);
 private:
 	// Array of all elements
-	T m_array[SetSize];
+	T m_array[SetSize]{};
 	// Number of elements inside cache set
-	std::size_t m_numElements;
+	std::size_t m_numElements{ 0 };
 };
 
 template<typename T, CacheUtilization CU>
@@ -52,7 +51,7 @@ inline CacheSet<T, CU> &CacheSet<T, CU>::operator=(const CacheSet<T, CU> &other)
 	// Copy every element from other cache set to this cache set
 	for (std::size_t i = 0; i < m_numElements; i++)
 	{
-		m_array[i] = other.m_array[i]:
+		m_array[i] = other.m_array[i];
 	}
 
 	// Return the reference to this cache set
@@ -75,13 +74,13 @@ inline void CacheSet<T, CU>::remove(T element)
 {
 	// Traverse the array in reverse order to find the index of the element to be removed
 	std::size_t elementIndex = m_numElements - 1;
-	while (elementIndex > 0 || m_array[elementIndex] != element)
+	while (elementIndex >= 0 && m_array[elementIndex] != element)
 	{
 		elementIndex--;
 	}
 
 	// If the element was found
-	if (elementIndex > 0)
+	if (elementIndex >= 0)
 	{
 		// Replace the element with the last element of the array and decrement the number of elements
 		m_array[elementIndex] = m_array[--m_numElements];

@@ -1,6 +1,8 @@
 #include "Engine.h"
 #include "Window.h"
 #include "Renderer.h"
+#include "KeyInputManager.h"
+#include "Time.h"
 
 #include <SDL2/SDL.h>
 
@@ -20,28 +22,39 @@ void Engine::init()
 	// Initialize SDL
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
+	// Open the window
 	Window::getInstance().open();
 }
 
 void Engine::loop()
 {
+	Time &time = Time::getInstance();
 	Window &window = Window::getInstance();
 	Renderer &renderer = Renderer::getInstance();
+	KeyInputManager &keyInput = KeyInputManager::getInstance();
 
+	// These two are used to calculate the delta time between frames
 	Uint32 currentFrame = SDL_GetTicks();
 	Uint32 previousFrame = currentFrame;
 
+	// The accumulated delta times
 	float accumulated = 0.0f;
 
+	// Initializer defined by child class
 	initialize();
 
 	SDL_Event e;
 	bool isRunning = true;
+
 	while (isRunning)
 	{
+		// Calculate the delta time and add it to the accumulated value
 		currentFrame = SDL_GetTicks();
 		accumulated += (float)(currentFrame - previousFrame) / 1000.0f;
 		previousFrame = currentFrame;
+
+		// Update keys input
+		keyInput.update();
 
 		// Process all SDL events
 		while (SDL_PollEvent(&e))
@@ -51,27 +64,47 @@ void Engine::loop()
 			case SDL_QUIT:
 				isRunning = false;
 				break;
+			case SDL_KEYDOWN:
+				keyInput.keyPressed(static_cast<Key>(e.key.keysym.scancode));
+				break;
+			case SDL_KEYUP:
+				keyInput.keyReleased(static_cast<Key>(e.key.keysym.scancode));
+				break;
 			}
 		}
 
-		while (accumulated >= window.m_deltaTime)
+		// Semi-fixed time step
+		while (accumulated >= time.m_deltaTime)
 		{
-			update(window.m_deltaTime);
-			accumulated -= window.m_deltaTime;
+			update();
+			accumulated -= time.m_deltaTime;
+			time.m_time += time.m_deltaTime;
 		}
 
+		// Clear the renderer
 		SDL_RenderClear(renderer);
 
 		render();
 
+		// Render the renderer
 		SDL_RenderPresent(renderer);
+
+		// Calculate frame ticks
+		Uint32 frameTicks = SDL_GetTicks() - currentFrame;
+		// If frame ticks are less than minimum frame ticks then wait some time
+		if (frameTicks < window.m_minTicksPerFrame)
+		{
+			SDL_Delay(window.m_minTicksPerFrame - frameTicks);
+		}
 	}
 
+	// Shutdown defined by child class
 	shutdown();
 }
 
 void Engine::quit()
 {
+	// Close the window
 	Window::getInstance().close();
 
 	// Shutdown SDL

@@ -13,7 +13,7 @@ public:
 	void run();		// Runs the game
 protected:
 	virtual void initialize() = 0;	// Abstract initializer method
-	virtual void update(float deltaTime) = 0;	// Frame update method
+	virtual void update() = 0;	// Frame update method
 	virtual void render() = 0;	// All rendering should go here
 	virtual void shutdown() = 0;	// Abstract shutdown method for cleanup
 private:

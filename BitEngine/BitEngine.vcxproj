@@ -202,10 +202,12 @@ XCOPY /S /Q /Y $(SolutionDir)lib\$(Platform)\*.lib $(SolutionDir)bin\$(ProjectNa
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="KeyInputManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyInputManager.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="utils\CacheSet.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Keys.h" />
