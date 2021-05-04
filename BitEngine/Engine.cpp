@@ -3,9 +3,11 @@
 #include "Renderer.h"
 #include "KeyInputManager.h"
 #include "Time.h"
+#include "TextureManager.h"
+#include "TaskScheduler.h"
 
 #include <SDL2/SDL.h>
-
+#include <SDL2/SDL_image.h>
 
 namespace BE
 {
@@ -22,8 +24,13 @@ void Engine::init()
 	// Initialize SDL
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
+	// Initialize SDL_image
+	IMG_Init(IMG_INIT_PNG);
+
 	// Open the window
 	Window::getInstance().open();
+
+	TaskScheduler::getInstance().initialize();
 }
 
 void Engine::loop()
@@ -100,12 +107,19 @@ void Engine::loop()
 
 	// Shutdown defined by child class
 	shutdown();
+
+	TextureManager::getInstance().clear();
 }
 
 void Engine::quit()
 {
+	TaskScheduler::getInstance().shutdown();
+
 	// Close the window
 	Window::getInstance().close();
+
+	// Shutdown SDL_image
+	IMG_Quit();
 
 	// Shutdown SDL
 	SDL_Quit();
