@@ -35,7 +35,7 @@ public:
 	// Removes element from cache set
 	void remove(T element);
 	// Checks if an element exists inside cache set
-	bool contains(T element);
+	bool contains(T element) const;
 private:
 	// Array of all elements
 	T m_array[SetSize]{};
@@ -88,7 +88,7 @@ inline void CacheSet<T, CU>::remove(T element)
 }
 
 template<typename T, CacheUtilization CU>
-inline bool CacheSet<T, CU>::contains(T element)
+inline bool CacheSet<T, CU>::contains(T element) const
 {
 	// Traverse the array to find element in array
 	for (std::size_t i = 0; i < m_numElements; i++)

@@ -5,9 +5,11 @@
 #include "Time.h"
 #include "TextureManager.h"
 #include "TaskScheduler.h"
+#include "MouseInputManager.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <iostream>
 
 namespace BE
 {
@@ -39,6 +41,7 @@ void Engine::loop()
 	Window &window = Window::getInstance();
 	Renderer &renderer = Renderer::getInstance();
 	KeyInputManager &keyInput = KeyInputManager::getInstance();
+	MouseInputManager &mouse = MouseInputManager::getInstance();
 
 	// These two are used to calculate the delta time between frames
 	Uint32 currentFrame = SDL_GetTicks();
@@ -63,6 +66,9 @@ void Engine::loop()
 		// Update keys input
 		keyInput.update();
 
+		// Update cursor
+		mouse.update();
+
 		// Process all SDL events
 		while (SDL_PollEvent(&e))
 		{
@@ -77,6 +83,18 @@ void Engine::loop()
 			case SDL_KEYUP:
 				keyInput.keyReleased(static_cast<Key>(e.key.keysym.scancode));
 				break;
+			case SDL_MOUSEMOTION:
+				mouse.setMouseCoords({ e.motion.x ,e.motion.y });
+				mouse.setMouseRelCoords({ e.motion.xrel , e.motion.yrel });
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				mouse.buttonPressed(static_cast<MouseButton>(e.button.button));
+				break;
+			case SDL_MOUSEBUTTONUP:
+				mouse.buttonReleased(static_cast<MouseButton>(e.button.button));
+				break;
+			case SDL_MOUSEWHEEL:
+				mouse.setWheelMotion(static_cast<MouseWheel>(e.wheel.y));
 			}
 		}
 

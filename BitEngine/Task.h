@@ -46,9 +46,19 @@ public:
 	{
 		// Lambda function that triggers the task to run
 		auto run = [this](Deps ... deps) {
+			// TODO: Remove all 'void' types from 'deps'
+			
 			// Get the result of all dependencies, pass them to tue task body, execute task
 			// and set the promise with the result of the task
-			m_promise.set_value(m_body(deps->result()...));
+			if constexpr (std::is_same<R, void>::value)
+			{
+				m_body(deps->result()...);
+				m_promise.set_value();
+			}
+			else
+			{
+				m_promise.set_value(m_body(deps->result()...));
+			}
 		};
 
 		// Execute lambda function with dependencies as arguments

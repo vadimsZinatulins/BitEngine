@@ -202,6 +202,7 @@ XCOPY /S /Q /Y $(SolutionDir)lib\$(Platform)\*.lib $(SolutionDir)bin\$(ProjectNa
     <ClCompile Include="ActionHolder.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="KeyInputManager.cpp" />
+    <ClCompile Include="MouseInputManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="TaskQueue.cpp" />
     <ClCompile Include="TaskScheduler.cpp" />
@@ -212,7 +213,13 @@ XCOPY /S /Q /Y $(SolutionDir)lib\$(Platform)\*.lib $(SolutionDir)bin\$(ProjectNa
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActionHolder.h" />
+    <ClInclude Include="Archetype.h" />
+    <ClInclude Include="ComponentArray.h" />
+    <ClInclude Include="ECS.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="KeyInputManager.h" />
+    <ClInclude Include="MouseInputManager.h" />
+    <ClInclude Include="System.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskManager.h" />
     <ClInclude Include="TaskQueue.h" />

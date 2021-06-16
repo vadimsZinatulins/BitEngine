@@ -3,10 +3,24 @@
 
 namespace BE
 {
+
+enum class MouseButton
+{
+	Left = 1,
+	Middle = 2,
+	Right = 3
+};
+
+enum class MouseWheel
+{
+	Down = -1,
+	None  = 0,
+	Up = 1
+};
+
 /**
  * Values from SDL_scancode.h
 */
-
 enum class Key
 {
 	KEY_UNKNOWN = 0,
