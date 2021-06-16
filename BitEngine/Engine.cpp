@@ -6,6 +6,7 @@
 #include "TextureManager.h"
 #include "TaskScheduler.h"
 #include "MouseInputManager.h"
+#include "SceneManager.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -42,6 +43,7 @@ void Engine::loop()
 	Renderer &renderer = Renderer::getInstance();
 	KeyInputManager &keyInput = KeyInputManager::getInstance();
 	MouseInputManager &mouse = MouseInputManager::getInstance();
+	SceneManager &sceneManager = SceneManager::getInstance();
 
 	// These two are used to calculate the delta time between frames
 	Uint32 currentFrame = SDL_GetTicks();
@@ -54,9 +56,9 @@ void Engine::loop()
 	initialize();
 
 	SDL_Event e;
-	bool isRunning = true;
+	sceneManager.updateSceneState();
 
-	while (isRunning)
+	while (sceneManager.isRunning())
 	{
 		// Calculate the delta time and add it to the accumulated value
 		currentFrame = SDL_GetTicks();
@@ -75,7 +77,7 @@ void Engine::loop()
 			switch (e.type)
 			{
 			case SDL_QUIT:
-				isRunning = false;
+				sceneManager.quit();
 				break;
 			case SDL_KEYDOWN:
 				keyInput.keyPressed(static_cast<Key>(e.key.keysym.scancode));
@@ -98,10 +100,12 @@ void Engine::loop()
 			}
 		}
 
+		auto scene = sceneManager.getCurrentScene();
+
 		// Semi-fixed time step
 		while (accumulated >= time.m_deltaTime)
 		{
-			update();
+			scene->ecs.update();
 			accumulated -= time.m_deltaTime;
 			time.m_time += time.m_deltaTime;
 		}
@@ -109,10 +113,12 @@ void Engine::loop()
 		// Clear the renderer
 		SDL_RenderClear(renderer);
 
-		render();
+		scene->ecs.render();
 
 		// Render the renderer
 		SDL_RenderPresent(renderer);
+
+		sceneManager.updateSceneState();
 
 		// Calculate frame ticks
 		Uint32 frameTicks = SDL_GetTicks() - currentFrame;

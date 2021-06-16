@@ -113,6 +113,8 @@ public:
 	{
 		m_systems.push_back(std::make_pair<ISystem *, std::vector<Archetype *>>(new T(), {}));
 	}
+private:
+	friend class Engine;
 
 	void update()
 	{
@@ -129,7 +131,7 @@ public:
 			pair.first->render(pair.second);
 		}
 	}
-private:
+
 	template<typename ...Components>
 	Archetype *findArchetype(Signature signature)
 	{

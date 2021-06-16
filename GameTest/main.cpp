@@ -11,6 +11,8 @@
 #include <BitEngine/ECS.h>
 #include <BitEngine/System.h>
 #include <BitEngine/Archetype.h>
+#include <BitEngine/IScene.h>
+#include <BitEngine/SceneManager.h>
 #include <string>
 #include <SDL2/SDL.h>
 #include <queue>
@@ -47,6 +49,19 @@ struct CircleRenderSystem final : public BE::System<Position, CircleTexture>
 	}
 };
 
+struct MainScene final : public BE::IScene
+{
+	virtual void initialize() override
+	{
+		ecs.registerSystem<CircleRenderSystem>();
+		ecs.newEntity<Position, CircleTexture>();
+	}
+
+	virtual void shutdown() override
+	{
+	}
+};
+
 class Game final : public BE::Engine
 {
 public:
@@ -58,27 +73,15 @@ public:
 		BE::Window::getInstance().setFrameLimit(60);
 		BE::Window::getInstance().setTitle("Test Game");
 
-		m_ecs.registerSystem<CircleRenderSystem>();
 		CircleTexture::texture.load("resources/circle.png");
 
-		m_ecs.newEntity<Position, CircleTexture>();
-	}
-
-	virtual void update() override
-	{
-		m_ecs.update();
-	}
-
-	virtual void render() override
-	{
-		m_ecs.render();
+		BE::SceneManager::getInstance().changeScene<MainScene>();
 	}
 
 	virtual void shutdown() override
 	{
 	}
 private:
-	BE::ECS m_ecs;
 };
 
 int main(int argc, char *argv[])
