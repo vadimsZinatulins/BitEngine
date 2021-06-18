@@ -16,11 +16,17 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <queue>
+#include <iostream>
 
 struct Position
 {
 	float x{ 0.0f };
 	float y{ 0.0f };
+};
+
+struct RandomCompponent
+{
+
 };
 
 struct CircleTexture
@@ -54,8 +60,9 @@ struct MainScene final : public BE::IScene
 	virtual void initialize() override
 	{
 		ecs.registerSystem<CircleRenderSystem>();
-		auto e = ecs.newEntity<Position, CircleTexture>({ 400 - 32, 300 - 32 }, {});
-		ecs.getComponent<Position>(e).x = 0;
+		auto e = ecs.newEntity<Position, CircleTexture, RandomCompponent>({ 400 - 32, 300 - 32 }, {}, {});
+
+		ecs.removeComponents<RandomCompponent>(e);
 	}
 
 	virtual void shutdown() override
