@@ -54,7 +54,8 @@ struct MainScene final : public BE::IScene
 	virtual void initialize() override
 	{
 		ecs.registerSystem<CircleRenderSystem>();
-		ecs.newEntity<Position, CircleTexture>({ 400 - 32, 300 - 32 }, {});
+		auto e = ecs.newEntity<Position, CircleTexture>({ 400 - 32, 300 - 32 }, {});
+		ecs.getComponent<Position>(e).x = 0;
 	}
 
 	virtual void shutdown() override

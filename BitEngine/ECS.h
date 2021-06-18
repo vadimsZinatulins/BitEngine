@@ -26,18 +26,18 @@ public:
 	};
 
 	template<typename ...Components>
-	std::shared_ptr<Entity> newEntity(Components ...components)
+	EntityPtr newEntity(Components ...components)
 	{
 		Signature signature = genSignature<Components...>();
 		Archetype *archetype = findArchetype<Components...>(signature);
-		std::shared_ptr<Entity> entity = std::make_shared<Entity>();
+		EntityPtr entity = std::make_shared<Entity>();
 		entity->signature = signature;
 		archetype->trackEntity(entity, components...);
 
 		return entity;
 	}
 
-	void deleteEntity(std::shared_ptr<Entity> entity)
+	void deleteEntity(EntityPtr entity)
 	{
 		auto ptr = m_archetypes.find(entity->signature);
 		if (ptr != m_archetypes.end())
@@ -47,7 +47,7 @@ public:
 	}
 
 	template<typename ...Components>
-	void addComponents(std::shared_ptr<Entity> entity)
+	void addComponents(EntityPtr entity)
 	{
 		Signature signature = entity->signature;
 		(..., signature.set(Utils::componentTypeId<Components>(), true));
@@ -79,7 +79,7 @@ public:
 	}
 
 	template<typename ...Components>
-	void removeComponents(std::shared_ptr<Entity> entity)
+	void removeComponents(EntityPtr entity)
 	{
 		Signature signature = entity->signature;
 		(..., signature.set(Utils::componentTypeId<Components>(), false));
@@ -112,6 +112,12 @@ public:
 	void registerSystem()
 	{
 		m_systems.push_back(std::make_pair<ISystem *, std::vector<Archetype *>>(new T(), {}));
+	}
+
+	template<typename T>
+	T &getComponent(EntityPtr entity)
+	{
+		return m_archetypes[entity->signature]->getComponentArray<T>()[entity->index];
 	}
 private:
 	friend class Engine;
