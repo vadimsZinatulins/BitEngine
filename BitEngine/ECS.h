@@ -26,13 +26,13 @@ public:
 	};
 
 	template<typename ...Components>
-	std::shared_ptr<Entity> newEntity()
+	std::shared_ptr<Entity> newEntity(Components ...components)
 	{
 		Signature signature = genSignature<Components...>();
 		Archetype *archetype = findArchetype<Components...>(signature);
 		std::shared_ptr<Entity> entity = std::make_shared<Entity>();
 		entity->signature = signature;
-		archetype->trackEntity(entity);
+		archetype->trackEntity(entity, components...);
 
 		return entity;
 	}

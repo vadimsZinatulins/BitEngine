@@ -76,10 +76,13 @@ public:
 		return static_cast<ComponentArray<Component>*>(m_components[Utils::componentTypeId<Component>()])->components;
 	}
 
-	void trackEntity(std::shared_ptr<Entity> entity)
+	template<typename ...Components>
+	void trackEntity(std::shared_ptr<Entity> entity, Components... components)
 	{
 		m_entities[m_count] = entity;
-		entity->index = m_count++;
+		entity->index = m_count;
+		(..., (static_cast<ComponentArray<Components>*>(m_components[Utils::componentTypeId<Components>()])->components[m_count] = components));
+		m_count++;
 	}
 
 	void untrackEntity(std::shared_ptr<Entity> entity)
