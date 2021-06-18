@@ -4,18 +4,17 @@
 #include <vector>
 
 #include "utils/Globals.h"
+#include "Archetype.h"
 
 namespace BE
 {
-
-class Archetype;
 
 struct ISystem
 {
 	ISystem(Signature s) : signature(s) {}
 	virtual ~ISystem() {}
-	virtual void update(const std::vector<Archetype *> &archtypes) = 0;
-	virtual void render(const std::vector<Archetype *> &archtypes) = 0;
+	virtual void update(const std::vector<ArchetypePtr> &archtypes) = 0;
+	virtual void render(const std::vector<ArchetypePtr> &archtypes) = 0;
 
 	Signature signature;
 };
@@ -26,8 +25,8 @@ struct System : public ISystem
 	System() : ISystem(genSignature<Queries...>()) {}
 	virtual ~System() {}
 
-	virtual void update(const std::vector<Archetype *> &archtypes) = 0;
-	virtual void render(const std::vector<Archetype *> &archtypes) = 0;
+	virtual void update(const std::vector<ArchetypePtr> &archtypes) = 0;
+	virtual void render(const std::vector<ArchetypePtr> &archtypes) = 0;
 };
 
 }

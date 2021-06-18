@@ -32,9 +32,9 @@ BE::Texture CircleTexture::texture;
 
 struct CircleRenderSystem final : public BE::System<Position, CircleTexture>
 {
-	virtual void update(const std::vector<BE::Archetype *> &archtypes) override {}
+	virtual void update(const std::vector<BE::ArchetypePtr> &archtypes) override {}
 
-	virtual void render(const std::vector<BE::Archetype *> &archtypes) override
+	virtual void render(const std::vector<BE::ArchetypePtr> &archtypes) override
 	{
 		for (auto archetype : archtypes)
 		{

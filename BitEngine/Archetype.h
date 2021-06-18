@@ -15,10 +15,14 @@
 namespace BE
 {
 
+class Archetype;
+
+using ArchetypePtr = std::shared_ptr<Archetype>;
+
 class Archetype
 {
 public:
-	Archetype() : m_count(0), m_entities(new std::shared_ptr<Entity>[MAX_NUM_ENTITIES]) {}
+	Archetype() : m_count(0), m_entities(new EntityPtr[MAX_NUM_ENTITIES]) {}
 	~Archetype()
 	{
 		for (auto const &pair : m_components)
@@ -32,9 +36,9 @@ public:
 	}
 
 	template<typename ...Components>
-	static inline Archetype *newArchetype()
+	static inline ArchetypePtr newArchetype()
 	{
-		Archetype *archetype = new Archetype();
+		ArchetypePtr archetype = std::make_shared<Archetype>();
 
 		(..., archetype->m_components.insert({ Utils::componentTypeId<Components>(), new ComponentArray<Components>() }));
 
@@ -42,14 +46,14 @@ public:
 	}
 
 	template<typename ...Components>
-	static inline Archetype *newArchetype(std::tuple<Components...>)
+	static inline ArchetypePtr newArchetype(std::tuple<Components...>)
 	{
 		return newArchetype<Components...>();
 	}
 
-	static inline Archetype *newArchetype(Archetype *original)
+	static inline ArchetypePtr newArchetype(Archetype *original)
 	{
-		Archetype *archetype = new Archetype();
+		ArchetypePtr archetype = std::make_shared<Archetype>();
 		for (auto const &pair : original->m_components)
 		{
 			archetype->m_components[pair.first] = pair.second->copy();
@@ -57,9 +61,9 @@ public:
 		return archetype;
 	}
 
-	static inline Archetype *newArchetype(Archetype *original, Signature signature)
+	static inline ArchetypePtr newArchetype(Archetype *original, Signature signature)
 	{
-		Archetype *archetype = new Archetype();
+		ArchetypePtr archetype = std::make_shared<Archetype>();
 		for (auto const &pair : original->m_components)
 		{
 			if (signature[pair.first])
@@ -77,7 +81,7 @@ public:
 	}
 
 	template<typename ...Components>
-	void trackEntity(std::shared_ptr<Entity> entity, Components... components)
+	void trackEntity(EntityPtr entity, Components... components)
 	{
 		m_entities[m_count] = entity;
 		entity->index = m_count;
@@ -85,7 +89,7 @@ public:
 		m_count++;
 	}
 
-	void untrackEntity(std::shared_ptr<Entity> entity)
+	void untrackEntity(EntityPtr entity)
 	{
 		m_count--;
 		m_entities[m_count]->index = entity->index;
@@ -98,7 +102,7 @@ private:
 
 	std::size_t m_count;
 	std::unordered_map<std::size_t, IComponentArray *> m_components;
-	std::shared_ptr<Entity> *m_entities;
+	EntityPtr *m_entities;
 };
 
 }

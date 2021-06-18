@@ -7,13 +7,16 @@
 namespace BE
 {
 
+struct Entity;
+
+using EntityPtr = std::shared_ptr<Entity>;
+
 struct Entity
 {
 	std::size_t index;
 	Signature signature;
 };
 
-using EntityPtr = std::shared_ptr<Entity>;
 
 }
 

@@ -16,20 +16,14 @@ namespace BE
 class ECS
 {
 public:
-	ECS() {};
-	~ECS()
-	{
-		for (auto const &pair : m_archetypes)
-		{
-			delete pair.second;
-		}
-	};
+	ECS() = default;
+	~ECS() = default;
 
 	template<typename ...Components>
 	EntityPtr newEntity(Components ...components)
 	{
 		Signature signature = genSignature<Components...>();
-		Archetype *archetype = findArchetype<Components...>(signature);
+		ArchetypePtr archetype = findArchetype<Components...>(signature);
 		EntityPtr entity = std::make_shared<Entity>();
 		entity->signature = signature;
 		archetype->trackEntity(entity, components...);
@@ -55,7 +49,7 @@ public:
 		auto ptr = m_archetypes.find(signature);
 		if (ptr == m_archetypes.end())
 		{
-			Archetype *archetype = Archetype::newArchetype(m_archetypes.find(entity->signature)->second);
+			ArchetypePtr archetype = Archetype::newArchetype(m_archetypes.find(entity->signature)->second);
 			auto notCreate = []() {};
 			(..., (!entity->signature[Utils::componentTypeId<Components>()] ? (archetype->m_components[Utils::componentTypeId<Components>()] = new ComponentArray<Components>()) : nullptr));
 
@@ -87,7 +81,7 @@ public:
 		auto ptr = m_archetypes.find(signature);
 		if (ptr == m_archetypes.end())
 		{
-			Archetype *archetype = Archetype::newArchetype(m_archetypes.find(entity->signature)->second, signature);
+			ArchetypePtr archetype = Archetype::newArchetype(m_archetypes.find(entity->signature)->second, signature);
 
 			archetype->trackEntity(entity);
 			m_archetypes.insert({ signature, archetype });
@@ -111,7 +105,7 @@ public:
 	template<typename T>
 	void registerSystem()
 	{
-		m_systems.push_back(std::make_pair<ISystem *, std::vector<Archetype *>>(new T(), {}));
+		m_systems.push_back(std::make_pair<ISystem *, std::vector<ArchetypePtr>>(new T(), {}));
 	}
 
 	template<typename T>
@@ -139,12 +133,12 @@ private:
 	}
 
 	template<typename ...Components>
-	Archetype *findArchetype(Signature signature)
+	ArchetypePtr findArchetype(Signature signature)
 	{
 		auto ptr = m_archetypes.find(signature);
 		if (ptr == m_archetypes.end())
 		{
-			Archetype *archetype = Archetype::newArchetype<Components...>();
+			ArchetypePtr archetype = Archetype::newArchetype<Components...>();
 			m_archetypes.insert({ signature, archetype });
 
 			for (auto &pair : m_systems)
@@ -161,8 +155,8 @@ private:
 		return ptr->second;
 	}
 
-	std::unordered_map<Signature, Archetype *> m_archetypes{};
-	std::vector<std::pair<ISystem *, std::vector<Archetype *>>> m_systems;
+	std::unordered_map<Signature, ArchetypePtr> m_archetypes{};
+	std::vector<std::pair<ISystem *, std::vector<ArchetypePtr>>> m_systems;
 };
 
 }
