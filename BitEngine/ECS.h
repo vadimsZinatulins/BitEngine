@@ -138,7 +138,9 @@ public:
 	template<typename T>
 	void registerSystem()
 	{
-		m_systems.push_back(std::make_pair<ISystem *, std::vector<ArchetypePtr>>(new T(), {}));
+		auto pair = std::make_pair<ISystem *, std::vector<ArchetypePtr>>(new T(), {});
+		pair.first->ecs = this;
+		m_systems.push_back(pair);
 	}
 
 	template<typename T>

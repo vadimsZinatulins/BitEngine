@@ -4,7 +4,7 @@
 #include <bitset>
 
 #ifndef MAX_NUM_COMPONENTS
-#define MAX_NUM_COMPONENTS 8
+#define MAX_NUM_COMPONENTS 32
 #endif // !MAX_NUM_COMPONENTS
 
 #if defined(_WIN64)

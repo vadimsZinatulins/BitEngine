@@ -38,7 +38,18 @@ BE::Texture CircleTexture::texture;
 
 struct CircleRenderSystem final : public BE::System<Position, CircleTexture>
 {
-	virtual void update(const std::vector<BE::ArchetypePtr> &archtypes) override {}
+	virtual void update(const std::vector<BE::ArchetypePtr> &archtypes) override
+	{
+		BE::KeyInputManager &input = BE::KeyInputManager::getInstance();
+
+		for (auto archetype : archtypes)
+		{
+			if (input.isKeyPressed(BE::Key::KEY_SPACE))
+			{
+				ecs->removeComponents<Position>(archetype->getEntityByIndex(0));
+			}
+		}
+	}
 
 	virtual void render(const std::vector<BE::ArchetypePtr> &archtypes) override
 	{
@@ -60,9 +71,9 @@ struct MainScene final : public BE::IScene
 	virtual void initialize() override
 	{
 		ecs.registerSystem<CircleRenderSystem>();
-		auto e = ecs.newEntity<Position, CircleTexture, RandomCompponent>({ 400 - 32, 300 - 32 }, {}, {});
-
-		ecs.removeComponents<RandomCompponent>(e);
+		ecs.newEntity<Position, CircleTexture, RandomCompponent>({ 100, 100 }, {}, {});
+		ecs.newEntity<Position, CircleTexture, RandomCompponent>({ 200, 200 }, {}, {});
+		ecs.newEntity<Position, CircleTexture, RandomCompponent>({ 300, 300 }, {}, {});
 	}
 
 	virtual void shutdown() override

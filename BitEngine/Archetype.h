@@ -2,7 +2,7 @@
 #define __BE_ACHETYPE_H__
 
 #ifndef MAX_NUM_ENTITIES
-#define MAX_NUM_ENTITIES 256
+#define MAX_NUM_ENTITIES 1024 * 1024
 #endif
 
 #include <unordered_map>
@@ -94,6 +94,11 @@ public:
 		m_count--;
 		m_entities[m_count]->index = entity->index;
 		m_entities[entity->index] = m_entities[m_count];
+
+		for (auto pair : m_components)
+		{
+			pair.second->replace(m_count, entity->index);
+		}
 	}
 
 	void passOwnership(EntityPtr entity, ArchetypePtr archetype)
@@ -103,9 +108,7 @@ public:
 			pair.second->copyElement(entity->index, archetype->m_count, archetype->m_components[pair.first]);
 		}
 
-		m_count--;
-		m_entities[m_count]->index = entity->index;
-		m_entities[entity->index] = m_entities[m_count];
+		untrackEntity(entity);
 
 		entity->index = archetype->m_count;
 		archetype->m_entities[archetype->m_count] = entity;
@@ -119,9 +122,7 @@ public:
 			archetype->m_components[pair.first]->copyElement(entity->index, m_count, pair.second);
 		}
 
-		archetype->m_count--;
-		archetype->m_entities[archetype->m_count]->index = entity->index;
-		archetype->m_entities[entity->index] = archetype->m_entities[archetype->m_count];
+		archetype->untrackEntity(entity);
 
 		entity->index = m_count;
 		m_entities[m_count] = entity;
@@ -135,6 +136,8 @@ public:
 	}
 
 	inline std::size_t count() const { return m_count; }
+
+	inline EntityPtr getEntityByIndex(std::size_t index) { return m_entities[index]; }
 private:
 	friend class ECS;
 

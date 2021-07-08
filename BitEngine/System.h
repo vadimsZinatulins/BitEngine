@@ -9,6 +9,8 @@
 namespace BE
 {
 
+class ECS;
+
 struct ISystem
 {
 	ISystem(Signature s) : signature(s) {}
@@ -17,6 +19,8 @@ struct ISystem
 	virtual void render(const std::vector<ArchetypePtr> &archtypes) = 0;
 
 	Signature signature;
+
+	ECS *ecs{ nullptr };
 };
 
 template<typename ...Queries>
