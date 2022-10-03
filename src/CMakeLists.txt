@@ -13,6 +13,8 @@ target_include_directories(BitEngine
 
 target_link_libraries(BitEngine
 	PRIVATE 
-		STM::SimpleTaskManager
 		${SDL2_LIBRARIES}
+		STM::SimpleTaskManager
+		Glad
 )
+
