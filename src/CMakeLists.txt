@@ -8,6 +8,7 @@ add_executable(BitEngine
 	IShader.cpp
 	VertexShader.cpp
 	FragmentShader.cpp
+	ShaderProgram.cpp
 )
 
 target_include_directories(BitEngine
