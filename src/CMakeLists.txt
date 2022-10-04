@@ -5,6 +5,9 @@ add_executable(BitEngine
 	main.cpp 
 	Engine.cpp
 	VertexArrayObject.cpp
+	IShader.cpp
+	VertexShader.cpp
+	FragmentShader.cpp
 )
 
 target_include_directories(BitEngine
