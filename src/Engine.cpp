@@ -60,6 +60,8 @@ void Engine::loop() {
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		render();
+
 		SDL_GL_SwapWindow(m_window);
 	}
 }

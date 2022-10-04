@@ -4,6 +4,14 @@
 
 namespace be::graphics {
 
+VertexShader VertexShader::create(const char *filePath) {
+	VertexShader vs;
+
+	vs.init(filePath);
+
+	return vs;
+}
+
 void VertexShader::init(const char *shaderFilePath) {
 	load(shaderFilePath, GL_VERTEX_SHADER);
 }

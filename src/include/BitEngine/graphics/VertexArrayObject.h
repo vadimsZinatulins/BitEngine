@@ -33,8 +33,10 @@ private:
 
 	std::vector<unsigned int> m_buffers {};
 	unsigned int m_id { 0 };
-	unsigned int m_ebo { 0 };
 	unsigned int m_vertexCount { 0 };
+
+	unsigned int m_ebo { 0 };
+	unsigned int m_indicesCount { 0 };
 };
 
 }

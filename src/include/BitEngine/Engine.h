@@ -11,6 +11,7 @@ public:
 protected:
 	virtual void onInitialize() = 0;
 	virtual void onShutdown() = 0;
+	virtual void render() = 0;
 private:
 	void init();
 	void loop();

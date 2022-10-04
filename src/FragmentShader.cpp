@@ -4,6 +4,15 @@
 
 namespace be::graphics {
 
+FragmentShader FragmentShader::create(const char *filePath) {
+	FragmentShader fs;
+
+	fs.init(filePath);
+
+	return fs;
+}
+
+
 void FragmentShader::init(const char *shaderFilePath) {
 	load(shaderFilePath, GL_FRAGMENT_SHADER);
 }

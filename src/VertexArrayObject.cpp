@@ -38,7 +38,8 @@ void VertexArrayObject::enable() {
 	if(!m_id) {
 		return;
 	}
-	glEnableVertexAttribArray(m_id);
+
+	glBindVertexArray(m_id);
 }
 
 void VertexArrayObject::disable() {
@@ -47,9 +48,9 @@ void VertexArrayObject::disable() {
 
 void VertexArrayObject::draw() {
 	if(m_ebo) {
-		glDrawElements(GL_TRIANGLES, m_vertexCount, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, m_indicesCount, GL_UNSIGNED_INT, nullptr);
 	} else {
-		glDrawArrays(GL_TRIANGLES, 0, m_vertexCount / 3);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
 }
 
@@ -88,7 +89,7 @@ void VertexArrayObject::addAttribute(void *data, long dataSize, int componentsPe
 	}
 
 	// Get the number of vertices in the attribute
-	unsigned int vertexCount = dataSize / (componentsPerVertex * typeSize);
+	unsigned int vertexCount = dataSize / componentsPerVertex;
 
 	if(!m_vertexCount) {
 		// If the number of vertices hasn't been set then set it
@@ -104,9 +105,9 @@ void VertexArrayObject::addAttribute(void *data, long dataSize, int componentsPe
 	glGenBuffers(1, &buffer);
 
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, dataSize * typeSize, data, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(m_buffers.size(), componentsPerVertex, type, GL_FALSE, typeSize, (void*)0);
+	glVertexAttribPointer(m_buffers.size(), componentsPerVertex, type, GL_FALSE, componentsPerVertex * typeSize, (void*)0);
 	glEnableVertexAttribArray(m_buffers.size());
 
 	m_buffers.push_back(buffer);
@@ -124,6 +125,8 @@ void VertexArrayObject::setElementBuffer(std::vector<unsigned int> data) {
 	if(m_ebo) {
 		return;
 	}
+
+	m_indicesCount = data.size();
 
 	glBindVertexArray(m_id);
 

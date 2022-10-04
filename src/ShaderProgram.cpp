@@ -8,7 +8,7 @@ namespace be::graphics {
 
 void ShaderProgram::init() {
 	// Make sure that the program hasn't been created yet
-	if(!m_id) {
+	if(m_id) {
 		return;
 	}
 
