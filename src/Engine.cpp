@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Keyboard.h"
+#include "Mouse.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
@@ -50,9 +51,11 @@ void Engine::loop() {
 	SDL_Event e;
 	auto isRunning { true };
 	auto &keyboard { input::Keyboard::getInstance() };
+	auto &mouse { input::Mouse::getInstance() };
 
 	while(isRunning) {
 		keyboard.update();
+		mouse.update();
 
 		while(SDL_PollEvent(&e)) {
 			switch(e.type) {
@@ -65,6 +68,15 @@ void Engine::loop() {
 			case SDL_KEYUP:
 				keyboard.keyReleased(e.key.keysym.sym);
 				break;
+			case SDL_MOUSEBUTTONDOWN:
+				mouse.buttonPressed(static_cast<input::MouseButton>(e.button.button));
+				break;				
+			case SDL_MOUSEBUTTONUP:
+				mouse.buttonReleased(static_cast<input::MouseButton>(e.button.button));
+				break;				
+			case SDL_MOUSEMOTION:
+				mouse.mouseMoved(e.motion.x, e.motion.y, e.motion.xrel, e.motion.yrel);
+				break;				
 			}
 		}
 

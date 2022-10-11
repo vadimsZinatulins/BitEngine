@@ -10,6 +10,7 @@ add_executable(BitEngine
 	FragmentShader.cpp
 	ShaderProgram.cpp
 	Keyboard.cpp
+	Mouse.cpp
 )
 
 target_include_directories(BitEngine
