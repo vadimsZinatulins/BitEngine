@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "Keyboard.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
@@ -47,13 +48,22 @@ void Engine::init() {
 
 void Engine::loop() {
 	SDL_Event e;
-	bool isRunning { true };
+	auto isRunning { true };
+	auto &keyboard { input::Keyboard::getInstance() };
 
 	while(isRunning) {
+		keyboard.update();
+
 		while(SDL_PollEvent(&e)) {
 			switch(e.type) {
 			case SDL_QUIT:
 				isRunning = false;
+				break;
+			case SDL_KEYDOWN:
+				keyboard.keyPressed(e.key.keysym.sym);
+				break;
+			case SDL_KEYUP:
+				keyboard.keyReleased(e.key.keysym.sym);
 				break;
 			}
 		}

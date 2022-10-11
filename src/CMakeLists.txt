@@ -9,12 +9,14 @@ add_executable(BitEngine
 	VertexShader.cpp
 	FragmentShader.cpp
 	ShaderProgram.cpp
+	Keyboard.cpp
 )
 
 target_include_directories(BitEngine
 	PRIVATE
-		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/BitEngine>
-		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/BitEngine/graphics>
+		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/BitEngine>
+		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/BitEngine/graphics>
+		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/BitEngine/input>
 		$<INSTALL_INTERFACE:include/BitEngine>
 		$<INSTALL_INTERFACE:include/BitEngine/graphics>
 	INTERFACE
