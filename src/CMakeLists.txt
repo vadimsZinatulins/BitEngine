@@ -11,6 +11,7 @@ add_executable(BitEngine
 	ShaderProgram.cpp
 	Keyboard.cpp
 	Mouse.cpp
+	Time.cpp
 )
 
 target_include_directories(BitEngine

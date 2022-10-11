@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Time.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
@@ -54,6 +55,8 @@ void Engine::loop() {
 	auto &mouse { input::Mouse::getInstance() };
 
 	while(isRunning) {
+		Time frameTime;
+
 		keyboard.update();
 		mouse.update();
 
