@@ -2,11 +2,13 @@
 #include <vector>
 
 #include "Engine.h"
+#include "IScene.h"
 #include "utils/runAsync.h"
 #include "graphics/VertexShader.h"
 #include "graphics/FragmentShader.h"
 #include "graphics/ShaderProgram.h"
 #include "graphics/VertexArrayObject.h"
+#include "scene/SceneManager.h"
 
 class Model {
 public:
@@ -52,17 +54,17 @@ private:
 	be::graphics::ShaderProgram m_program;
 };
 
-class Game : public be::Engine {
-public:
-	Game() = default;
-	~Game() = default;
-private:
-	void onInitialize() override {
+struct MainMenuScene : public be::scene::IScene {
+	void initialize() override {
 		m_model.init();
 	}
 
-	void onShutdown() override {
+	void shutdown() override {
 		m_model.close();
+	}
+
+	void update() override {
+	
 	}
 
 	void render() override {
@@ -70,6 +72,19 @@ private:
 	}
 
 	Model m_model;
+};
+
+class Game : public be::Engine {
+public:
+	Game() = default;
+	~Game() = default;
+private:
+	void onInitialize() override {
+		be::scene::SceneManager::getInstance().pushScene<MainMenuScene>();
+	}
+
+	void onShutdown() override {
+	}
 };
 
 int main(int argc, char *argv[]) {

@@ -12,6 +12,7 @@ add_executable(BitEngine
 	Keyboard.cpp
 	Mouse.cpp
 	Time.cpp
+	SceneManager.cpp
 )
 
 target_include_directories(BitEngine
@@ -19,6 +20,7 @@ target_include_directories(BitEngine
 		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/BitEngine>
 		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/BitEngine/graphics>
 		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/BitEngine/input>
+		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/BitEngine/scene>
 		$<INSTALL_INTERFACE:include/BitEngine>
 		$<INSTALL_INTERFACE:include/BitEngine/graphics>
 	INTERFACE

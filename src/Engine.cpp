@@ -1,7 +1,9 @@
 #include "Engine.h"
+#include "IScene.h"
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Time.h"
+#include "SceneManager.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
@@ -46,6 +48,8 @@ void Engine::init() {
 	stm::Scheduler::getInstance().initialize();
 
 	onInitialize();
+
+	scene::SceneManager::getInstance().updateState();
 }
 
 void Engine::loop() {
@@ -54,7 +58,7 @@ void Engine::loop() {
 	auto &keyboard { input::Keyboard::getInstance() };
 	auto &mouse { input::Mouse::getInstance() };
 
-	while(isRunning) {
+	while(scene::IScene *scene = scene::SceneManager::getInstance().getActiveScene()) {
 		Time frameTime;
 
 		keyboard.update();
@@ -63,7 +67,7 @@ void Engine::loop() {
 		while(SDL_PollEvent(&e)) {
 			switch(e.type) {
 			case SDL_QUIT:
-				isRunning = false;
+				scene::SceneManager().getInstance().popAllScenes();
 				break;
 			case SDL_KEYDOWN:
 				keyboard.keyPressed(e.key.keysym.sym);
@@ -83,10 +87,10 @@ void Engine::loop() {
 			}
 		}
 
+		scene->update();
+
 		glClear(GL_COLOR_BUFFER_BIT);
-
-		render();
-
+		scene->render();
 		SDL_GL_SwapWindow(m_window);
 	}
 }
