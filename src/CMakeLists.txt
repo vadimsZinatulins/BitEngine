@@ -1,8 +1,7 @@
 find_package(SDL2)
 find_package(SimpleTaskManager)
 
-add_executable(BitEngine 
-	main.cpp 
+add_library(BitEngine 
 	Engine.cpp
 	Time.cpp
 	scene/SceneManager.cpp
@@ -24,7 +23,7 @@ target_include_directories(BitEngine
 )
 
 target_link_libraries(BitEngine
-	PRIVATE 
+	PUBLIC 
 		${SDL2_LIBRARIES}
 		STM::SimpleTaskManager
 		Glad

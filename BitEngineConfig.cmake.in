@@ -1,0 +1,8 @@
+@PACKAGE_INIT@
+
+set_and_check(BIT_ENGINE_CMAKE_DIR "@PACKAGE_LIB_CMAKE_DIR@")
+include("${BIT_ENGINE_CMAKE_DIR}/BitEngineTarget.cmake")
+
+find_package(SimpleTaskManager)
+
+check_required_components(BitEngine)
