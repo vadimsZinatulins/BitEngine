@@ -1,9 +1,9 @@
 #include "Engine.h"
-#include "IScene.h"
-#include "Keyboard.h"
-#include "Mouse.h"
 #include "Time.h"
-#include "SceneManager.h"
+#include "scene/IScene.h"
+#include "scene/SceneManager.h"
+#include "input/Keyboard.h"
+#include "input/Mouse.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>

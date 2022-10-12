@@ -1,4 +1,4 @@
-#include "Mouse.h"
+#include "input/Mouse.h"
 
 namespace be::input {
 

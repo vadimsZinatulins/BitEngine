@@ -2,13 +2,12 @@
 #include <vector>
 
 #include "Engine.h"
-#include "IScene.h"
-#include "utils/runAsync.h"
+#include "scene/IScene.h"
+#include "scene/SceneManager.h"
 #include "graphics/VertexShader.h"
 #include "graphics/FragmentShader.h"
 #include "graphics/ShaderProgram.h"
 #include "graphics/VertexArrayObject.h"
-#include "scene/SceneManager.h"
 
 class Model {
 public:

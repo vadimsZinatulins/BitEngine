@@ -1,4 +1,4 @@
-#include "IShader.h"
+#include "graphics/IShader.h"
 
 #include <sstream>
 #include <fstream>
