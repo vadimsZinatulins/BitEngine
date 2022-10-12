@@ -7,7 +7,6 @@ SET(CMAKE_CXX_STANDARD_REQUIRED True)
 SET(CMAKE_EXPORT_COMPILE_COMMANDS True)
 
 add_subdirectory(src)
-add_subdirectory(external)
 
 include(CMakePackageConfigHelpers)
 
@@ -24,7 +23,7 @@ install(
 )
 
 install(
-	DIRECTORY ${PROJECT_SOURCE_DIR}/include/BitEngine
+	DIRECTORY ${PROJECT_SOURCE_DIR}/src/BitEngine/include/BitEngine
 	DESTINATION include
 )
 
