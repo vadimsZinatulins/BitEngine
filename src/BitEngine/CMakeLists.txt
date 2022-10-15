@@ -12,6 +12,9 @@ add_library(BitEngine
 	graphics/VertexShader.cpp
 	graphics/FragmentShader.cpp
 	graphics/ShaderProgram.cpp
+	math/Vec3.cpp
+	math/Vec4.cpp
+	math/Mat3.cpp
 )
 
 message("BitEngine current source dir: ${CMAKE_CURRENT_SOURCE_DIR}")
